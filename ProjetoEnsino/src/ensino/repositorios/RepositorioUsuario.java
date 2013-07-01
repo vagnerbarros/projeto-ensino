@@ -131,7 +131,7 @@ public class RepositorioUsuario implements IRepositorioUsuario{
 	private Usuario montarObjeto(ResultSet rs){
 		Usuario a = new Usuario();
 		try {
-			a.setId(rs.getLong("id"));
+			a.setId(rs.getInt("id"));
 			a.setNome(rs.getString("nome"));
 			a.setEmail(rs.getString("email"));
 			a.setLogin(rs.getString("login"));
@@ -147,7 +147,7 @@ public class RepositorioUsuario implements IRepositorioUsuario{
 	private void montarOperacao(PreparedStatement ps, Usuario a){
 
 		try {
-			ps.setLong(1, a.getId());
+			ps.setInt(1, a.getId());
 			ps.setString(2, a.getNome());
 			ps.setString(3, a.getEmail());
 			ps.setString(4, a.getLogin());
