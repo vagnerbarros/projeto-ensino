@@ -34,7 +34,7 @@ public class CadastroUsuario {
         rep.remover(a);
     }
     
-    public Usuario buscarUsuarioPorId(Long id){
+    public Usuario buscarUsuarioPorId(int id){
     	return rep.buscarPorId(id);
     }
     

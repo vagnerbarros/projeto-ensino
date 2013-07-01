@@ -34,7 +34,7 @@ public class RepositorioUsuario implements IRepositorioUsuario{
 
 		try{
 			PreparedStatement ps = GerenteConexao.getConexao().prepareStatement(sql);
-			ps.setLong(1, a.getId());
+			ps.setInt(1, a.getId());
 
 			ps.executeUpdate();
 		} catch(Exception ex){
@@ -75,7 +75,7 @@ public class RepositorioUsuario implements IRepositorioUsuario{
 		}
 	}
 
-	public Usuario buscarPorId(Long id){
+	public Usuario buscarPorId(int id){
 		String sql = "select * from usuario where id = " + id;
 		Usuario a = null;
 
