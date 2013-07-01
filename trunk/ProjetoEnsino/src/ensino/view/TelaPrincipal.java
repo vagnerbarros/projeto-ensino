@@ -1,17 +1,24 @@
 package ensino.view;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
 
-public class TelaPrincipal extends JFrame {
+public class TelaPrincipal extends JFrame implements ActionListener{
 
 	private JPanel contentPane;
+	private JMenuItem mntmCadastrarAulas;
+	private JMenuItem mntmManterAulas;
+	private JMenuItem mntmCadastroAvaliacao;
+	private JMenuItem mntmManterAvaliacao;
 
 	public TelaPrincipal() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -23,24 +30,45 @@ public class TelaPrincipal extends JFrame {
 		JMenu mnNewMenu = new JMenu("Aulas");
 		menuBar.add(mnNewMenu);
 		
-		JMenuItem mntmCadastrar = new JMenuItem("Cadastrar");
-		mnNewMenu.add(mntmCadastrar);
+		mntmCadastrarAulas = new JMenuItem("Cadastrar");
+		mnNewMenu.add(mntmCadastrarAulas);
+		mntmCadastrarAulas.addActionListener(this);
 		
-		JMenuItem mntmManter_1 = new JMenuItem("Manter");
-		mnNewMenu.add(mntmManter_1);
+		mntmManterAulas = new JMenuItem("Manter");
+		mnNewMenu.add(mntmManterAulas);
 		
 		JMenu mnNewMenu_1 = new JMenu("Avalia\u00E7\u00F5es");
 		menuBar.add(mnNewMenu_1);
 		
-		JMenuItem mntmCadastro = new JMenuItem("Cadastrar");
-		mnNewMenu_1.add(mntmCadastro);
+		mntmCadastroAvaliacao = new JMenuItem("Cadastrar");
+		mnNewMenu_1.add(mntmCadastroAvaliacao);
 		
-		JMenuItem mntmManter = new JMenuItem("Manter");
-		mnNewMenu_1.add(mntmManter);
+		mntmManterAvaliacao = new JMenuItem("Manter");
+		mnNewMenu_1.add(mntmManterAvaliacao);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
 		setContentPane(contentPane);
 	}
 
+	public void actionPerformed(ActionEvent e) {
+		JComponent elemento = (JComponent) e.getSource();
+		if(elemento.equals(mntmCadastrarAulas)){
+			TelaCadastrarAula tela = new TelaCadastrarAula();
+			tela.setVisible(true);
+		}
+		else if(elemento.equals(mntmManterAulas)){
+			TelaManterAulas tela = new TelaManterAulas();
+			tela.setVisible(true);
+		}
+		else if(elemento.equals(mntmCadastroAvaliacao)){
+			TelaCadastrarAvaliacao tela = new TelaCadastrarAvaliacao();
+			tela.setVisible(true);
+		}
+		else if(elemento.equals(mntmManterAvaliacao)){
+			TelaManterAvaliacoes tela = new TelaManterAvaliacoes();
+			tela.setVisible(true);
+		}
+		this.dispose();
+	}
 }

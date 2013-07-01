@@ -190,11 +190,14 @@ public class TelaInicial extends JFrame implements ActionListener{
 			JOptionPane.showMessageDialog(this, "Bem Vindo, " + log.getNome());
 			//chamar a tela dependendo do perfil.
 			if(log.getPerfil().equals(Perfil.ALUNO)){
-				
+				TelaPrincipalAluno tela = new TelaPrincipalAluno();
+				tela.setVisible(true);
 			}
 			else if(log.getPerfil().equals(Perfil.PROFESSOR)){
-				
+				TelaPrincipal tela = new TelaPrincipal();
+				tela.setVisible(true);
 			}
+			this.dispose();
 		}
 	}
 	
