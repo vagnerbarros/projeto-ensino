@@ -23,8 +23,11 @@ public class TelaCadastrarQuestao extends JFrame {
 	private JTextField textField_3;
 	private JTextField textField_4;
 	private JTextField textField_5;
+	private TelaCadastrarAvaliacao telaAvaliacao;
 
-	public TelaCadastrarQuestao() {
+	public TelaCadastrarQuestao(TelaCadastrarAvaliacao telaAvaliacao) {
+		
+		this.telaAvaliacao = telaAvaliacao;
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 606, 441);
 		contentPane = new JPanel();

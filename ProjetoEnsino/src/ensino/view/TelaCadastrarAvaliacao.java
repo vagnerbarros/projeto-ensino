@@ -1,31 +1,46 @@
 package ensino.view;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JLabel;
 import java.awt.Color;
 import java.awt.Font;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
-import javax.swing.JScrollPane;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
-public class TelaCadastrarAvaliacao extends JFrame {
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+
+import ensino.dominio.Nivel;
+import ensino.entidades.Aula;
+import ensino.entidades.Questao;
+import ensino.fachada.Fachada;
+import ensino.util.Tabela;
+
+public class TelaCadastrarAvaliacao extends JFrame implements ActionListener{
 
 	private JPanel contentPane;
-	private JTextField textField;
-	private JTextField textField_1;
-	private JTable table;
+	private JTextField txtNome;
+	private JTextField txtMedia;
+	private Tabela<Questao> tabela;
+	private JComboBox<String> comboNivel;
+	private JButton btnAdicionar;
+	private JButton btnRetirar;
+	private JButton btnCadastrar;
+	private JButton btnCancelar;
+	private List<Questao> questoes;
 
 	public TelaCadastrarAvaliacao() {
+		
+		questoes = new ArrayList<Questao>();
+		
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 704, 442);
 		contentPane = new JPanel();
@@ -48,27 +63,28 @@ public class TelaCadastrarAvaliacao extends JFrame {
 		lblCadastrarAvaliao.setBounds(218, 0, 237, 46);
 		panel.add(lblCadastrarAvaliao);
 		
-		textField = new JTextField();
-		textField.setBounds(68, 67, 582, 20);
-		panel.add(textField);
-		textField.setColumns(10);
+		txtNome = new JTextField();
+		txtNome.setBounds(68, 67, 544, 20);
+		panel.add(txtNome);
+		txtNome.setColumns(10);
 		
 		JLabel lblMdia = new JLabel("M\u00E9dia:");
 		lblMdia.setBounds(28, 108, 46, 14);
 		panel.add(lblMdia);
 		
-		textField_1 = new JTextField();
-		textField_1.setBounds(68, 105, 86, 20);
-		panel.add(textField_1);
-		textField_1.setColumns(10);
+		txtMedia = new JTextField();
+		txtMedia.setBounds(68, 105, 86, 20);
+		panel.add(txtMedia);
+		txtMedia.setColumns(10);
 		
 		JLabel lblNvel = new JLabel("N\u00EDvel:");
 		lblNvel.setBounds(176, 108, 46, 14);
 		panel.add(lblNvel);
 		
-		JComboBox comboBox = new JComboBox();
-		comboBox.setBounds(216, 105, 86, 20);
-		panel.add(comboBox);
+		comboNivel = new JComboBox<String>();
+		comboNivel.setBounds(216, 105, 86, 20);
+		panel.add(comboNivel);
+		carregarCombo();
 		
 		JLabel lblQuestes = new JLabel("Quest\u00F5es");
 		lblQuestes.setFont(new Font("Tahoma", Font.PLAIN, 20));
@@ -79,35 +95,79 @@ public class TelaCadastrarAvaliacao extends JFrame {
 		scrollPane.setBounds(30, 179, 582, 154);
 		panel.add(scrollPane);
 		
-		table = new JTable();
-		table.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"New column", "New column"
-			}
-		));
-		scrollPane.setViewportView(table);
+		tabela = new Tabela<Questao>(new String [] {"Pergunta"});
+		tabela.montarTabela(questoes);
 		
-		JButton btnNewButton = new JButton("+");
-		btnNewButton.setBounds(622, 180, 41, 31);
-		panel.add(btnNewButton);
+		btnAdicionar = new JButton("+");
+		btnAdicionar.setBounds(622, 180, 41, 31);
+		panel.add(btnAdicionar);
+		btnAdicionar.addActionListener(this);
 		
-		JButton button = new JButton("-");
-		button.setBounds(622, 222, 41, 31);
-		panel.add(button);
+		btnRetirar = new JButton("-");
+		btnRetirar.setBounds(622, 222, 41, 31);
+		panel.add(btnRetirar);
+		btnRetirar.addActionListener(this);
 		
-		JButton btnCadastrar = new JButton("Cadastrar");
-		btnCadastrar.setBounds(523, 355, 89, 23);
+		btnCadastrar = new JButton("Cadastrar");
+		btnCadastrar.setBounds(509, 355, 103, 23);
 		panel.add(btnCadastrar);
+		btnCadastrar.addActionListener(this);
 		
-		JButton btnCancelar = new JButton("Cancelar");
-		btnCancelar.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnCancelar.setBounds(424, 355, 89, 23);
+		btnCancelar = new JButton("Cancelar");
+		btnCancelar.setBounds(410, 355, 89, 23);
 		panel.add(btnCancelar);
+		btnCancelar.addActionListener(this);
+	}
+	
+	private void carregarCombo(){
+		String [] niveis = Nivel.niveis();
+		for(String n : niveis){
+			comboNivel.addItem(n);
+		}
+	}
+	
+	public void adicionarQuestao(Questao q){
+		questoes.add(q);
+	}
+	
+	private void cadastrar(){
+		
+		String nome = txtNome.getText();
+		String media = txtMedia.getText();
+		String nivel = comboNivel.getSelectedItem().toString();
+		
+		
+	}
+	
+	private void remover(){
+		
+		int linha = tabela.getSelectedRow();
+		if(linha != -1){
+			Object[] options = { "OK", "Cancelar" };
+			int resposta = JOptionPane.showOptionDialog(this, "Tem certeza que deseja remover?", "Alerta !!", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+			if(resposta == 0){
+				Questao q = (Questao) tabela.getModel().getValueAt(linha, 0);
+				questoes.remove(q);
+				tabela.montarTabela(questoes);
+			}
+		}
 	}
 
+	public void actionPerformed(ActionEvent e) {
+		
+		JComponent elemento = (JComponent) e.getSource();
+		if(elemento.equals(btnAdicionar)){
+			TelaCadastrarQuestao tela = new TelaCadastrarQuestao(this);
+			tela.setVisible(true);
+		}
+		else if(elemento.equals(btnRetirar)){
+			remover();
+		}
+		else if(elemento.equals(btnCadastrar)){
+			cadastrar();
+		}
+		else if(elemento.equals(btnCancelar)){
+			
+		}
+	}
 }

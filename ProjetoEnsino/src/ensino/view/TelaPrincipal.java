@@ -36,15 +36,19 @@ public class TelaPrincipal extends JFrame implements ActionListener{
 		
 		mntmManterAulas = new JMenuItem("Manter");
 		mnNewMenu.add(mntmManterAulas);
+		mntmManterAulas.addActionListener(this);
 		
 		JMenu mnNewMenu_1 = new JMenu("Avalia\u00E7\u00F5es");
 		menuBar.add(mnNewMenu_1);
 		
 		mntmCadastroAvaliacao = new JMenuItem("Cadastrar");
 		mnNewMenu_1.add(mntmCadastroAvaliacao);
+		mntmCadastroAvaliacao.addActionListener(this);
 		
 		mntmManterAvaliacao = new JMenuItem("Manter");
 		mnNewMenu_1.add(mntmManterAvaliacao);
+		mntmManterAvaliacao.addActionListener(this);
+		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));

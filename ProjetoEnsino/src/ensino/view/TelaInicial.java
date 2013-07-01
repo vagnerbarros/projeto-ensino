@@ -18,6 +18,7 @@ import javax.swing.border.LineBorder;
 import ensino.dominio.Perfil;
 import ensino.entidades.Usuario;
 import ensino.fachada.Fachada;
+import ensino.util.Sessao;
 
 public class TelaInicial extends JFrame implements ActionListener{
 
@@ -188,6 +189,7 @@ public class TelaInicial extends JFrame implements ActionListener{
 		}
 		else{
 			JOptionPane.showMessageDialog(this, "Bem Vindo, " + log.getNome());
+			Sessao.setUsuario(log);
 			//chamar a tela dependendo do perfil.
 			if(log.getPerfil().equals(Perfil.ALUNO)){
 				TelaPrincipalAluno tela = new TelaPrincipalAluno();

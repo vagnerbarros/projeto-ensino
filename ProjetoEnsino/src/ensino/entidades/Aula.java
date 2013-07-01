@@ -1,6 +1,6 @@
 package ensino.entidades;
 
-public class Aula {
+public class Aula implements Entidade{
 
 	private int id;
 	private String descricao;
@@ -30,5 +30,11 @@ public class Aula {
 	}
 	public void setNivel(String nivel) {
 		this.nivel = nivel;
+	}
+	public Object[] getColunas() {
+		return new Object [] {this, nivel, material};
+	}
+	public String toString(){
+		return descricao;
 	}
 }

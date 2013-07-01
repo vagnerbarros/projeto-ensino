@@ -32,5 +32,9 @@ public class CadastroAula {
     public Aula buscarAulaPorId(int id){
     	return rep.buscarPorId(id);
     }
+    
+    public List<Aula> buscarNivel(String nivel){
+    	return rep.buscaLike("nivel", nivel);
+    }
 }
 
