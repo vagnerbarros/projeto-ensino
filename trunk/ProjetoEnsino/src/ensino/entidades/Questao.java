@@ -1,6 +1,6 @@
 package ensino.entidades;
 
-public class Questao {
+public class Questao implements Entidade{
 
 	private int id;
 	private String pergunta;
@@ -37,5 +37,19 @@ public class Questao {
 	}
 	public void setId_avaliacao(int id_avaliacao) {
 		this.id_avaliacao = id_avaliacao;
+	}
+	public Object[] getColunas() {
+		return new Object[]{this};
+	}
+	public String toString(){
+		return pergunta;
+	}
+	public boolean equals(Object o){
+		if(this.id == ((Questao)o).getId()){
+			return true;
+		}
+		else{
+			return false;
+		}
 	}
 }

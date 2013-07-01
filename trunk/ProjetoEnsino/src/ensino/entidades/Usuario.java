@@ -1,6 +1,6 @@
 package ensino.entidades;
 
-public class Usuario {
+public class Usuario implements Entidade{
 
 	private int id;
 	private String nome;
@@ -51,6 +51,11 @@ public class Usuario {
 	}
 	public void setPerfil(String perfil) {
 		this.perfil = perfil;
+	}
+	@Override
+	public Object[] getColunas() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 	
 }

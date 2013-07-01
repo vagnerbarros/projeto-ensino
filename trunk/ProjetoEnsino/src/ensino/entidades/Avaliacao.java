@@ -1,6 +1,6 @@
 package ensino.entidades;
 
-public class Avaliacao {
+public class Avaliacao implements Entidade{
 
 	private int id;
 	private String nome;
@@ -30,5 +30,12 @@ public class Avaliacao {
 	}
 	public void setNivel(String nivel) {
 		this.nivel = nivel;
+	}
+	@Override
+	public Object[] getColunas() {
+		return new Object [] {this, media, nivel};
+	}
+	public String toString(){
+		return nome;
 	}
 }
