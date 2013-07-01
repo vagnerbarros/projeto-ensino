@@ -30,16 +30,10 @@ public class TelaInicial extends JFrame implements ActionListener{
 	private JButton btnCadastrar;
 	private JButton btnLogar;
 
-	/**
-	 * Create the application.
-	 */
 	public TelaInicial() {
 		initialize();
 	}
 
-	/**
-	 * Initialize the contents of the frame.
-	 */
 	private void initialize() {
 		this.setBounds(100, 100, 800, 600);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
