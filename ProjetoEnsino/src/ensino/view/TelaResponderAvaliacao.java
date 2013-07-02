@@ -66,7 +66,7 @@ public class TelaResponderAvaliacao extends JFrame implements ActionListener{
 		lblAvaliao.setBounds(204, 8, 107, 40);
 		panel.add(lblAvaliao);
 		
-		lblNomeAvaliacao = new JLabel("nome avaliacao");
+		lblNomeAvaliacao = new JLabel(avaliacao.getNome());
 		lblNomeAvaliacao.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNomeAvaliacao.setBounds(10, 59, 478, 14);
 		panel.add(lblNomeAvaliacao);
@@ -144,7 +144,11 @@ public class TelaResponderAvaliacao extends JFrame implements ActionListener{
 		
 		JComponent elemento = (JComponent) e.getSource();
 		if(elemento.equals(btnEnviar)){
-			calcularNota();
+			Object[] options = { "Sim", "Não" };
+			int resposta = JOptionPane.showOptionDialog(this, "Tem certeza que deseja finalizar a avaliação?", "Alerta !!", JOptionPane.DEFAULT_OPTION, JOptionPane.WARNING_MESSAGE, null, options, options[0]);
+			if(resposta == 0){
+				calcularNota();
+			}
 		}
 	}
 	
