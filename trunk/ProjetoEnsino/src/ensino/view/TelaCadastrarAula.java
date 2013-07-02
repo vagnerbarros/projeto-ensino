@@ -4,10 +4,16 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JComponent;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -18,18 +24,21 @@ import javax.swing.border.EmptyBorder;
 import ensino.dominio.Nivel;
 import ensino.entidades.Aula;
 import ensino.fachada.Fachada;
+import ensino.util.Constantes;
 
 public class TelaCadastrarAula extends JFrame implements ActionListener{
 
 	private JPanel contentPane;
 	private JTextField txtDescricao;
-	private JTextField txtMaterial;
+	private JFileChooser fileChooser;
+	private JButton btnMaterial;
+	private String material;
 	private JButton btnCadastrar;
 	private JButton btnCancelar;
 	private JComboBox<String> comboNivel;
 
 	public TelaCadastrarAula() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 546, 425);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -69,13 +78,15 @@ public class TelaCadastrarAula extends JFrame implements ActionListener{
 		panel.add(txtDescricao);
 		txtDescricao.setColumns(10);
 		
-		txtMaterial = new JTextField();
-		txtMaterial.setBounds(107, 178, 345, 20);
-		panel.add(txtMaterial);
-		txtMaterial.setColumns(10);
+		btnMaterial = new JButton("Escolher");
+		btnMaterial.setBounds(107, 178, 103, 20);
+		btnMaterial.addActionListener(this);
+		panel.add(btnMaterial);
+		
+		fileChooser = new JFileChooser(System.getProperty("user.home"));
 		
 		comboNivel = new JComboBox<String>();
-		comboNivel.setBounds(107, 220, 81, 20);
+		comboNivel.setBounds(107, 220, 103, 20);
 		panel.add(comboNivel);
 		carregarCombo();
 		
@@ -96,7 +107,6 @@ public class TelaCadastrarAula extends JFrame implements ActionListener{
 	private void cadastrar(){
 		
 		String descricao = txtDescricao.getText();
-		String material = txtMaterial.getText();
 		String nivel = comboNivel.getSelectedItem().toString();
 		
 		Aula aula = new Aula();
@@ -110,10 +120,41 @@ public class TelaCadastrarAula extends JFrame implements ActionListener{
 		limparCampos();
 	}
 	
+	private void carregarMaterial(){
+		
+		fileChooser.setFileSelectionMode(JFileChooser.FILES_ONLY);
+		fileChooser.showDialog(null, "Carregar");
+		fileChooser.setDialogType(JFileChooser.OPEN_DIALOG);
+		File file = fileChooser.getSelectedFile();
+		if(file != null){
+			String path = file.getAbsolutePath();
+			String nomeArquivo = file.getName();
+			File entrada = new File(path);
+			File saida = new File(Constantes.CAMINHO_ARQUIVO + nomeArquivo);
+			
+			try {
+				 FileInputStream fis = new FileInputStream(entrada);
+				 FileOutputStream fos = new FileOutputStream(saida);
+				 byte[] bytes = new byte[(int)entrada.length()];
+				 while((fis.read(bytes)) > 0){
+					 fos.write(bytes, 0, bytes.length);
+				 }
+				 fis.close();
+				 fos.close();
+				 
+				 material = nomeArquivo;
+			} catch (FileNotFoundException e) {
+				JOptionPane.showMessageDialog(this, "Arquivo não encontrado.");
+			} catch (IOException e) {
+				JOptionPane.showMessageDialog(this, "Erro ao tentar carregar arquivo");
+			}
+		}
+	}
+	
 	private void limparCampos(){
 		
 		txtDescricao.setText("");
-		txtMaterial.setText("");
+		material = "";
 		comboNivel.setSelectedIndex(0);
 	}
 
@@ -127,6 +168,9 @@ public class TelaCadastrarAula extends JFrame implements ActionListener{
 			this.dispose();
 			TelaPrincipal tela = new TelaPrincipal();
 			tela.setVisible(true);
+		}
+		else if(elemento.equals(btnMaterial)){
+			carregarMaterial();
 		}
 	}
 }

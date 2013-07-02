@@ -95,6 +95,25 @@ public class RepositorioQuestao implements IRepositorioQuestao{
 		return a;
 	}
 	
+	public List<Questao> buscarPorIdAvaliacao(int idAvaliacao){
+		String sql = "Select * FROM questao WHERE id_avaliacao = " + idAvaliacao;
+
+		List<Questao> retorno = null;
+		try {
+			Statement st = GerenteConexao.getConexao().createStatement();
+			ResultSet rs = st.executeQuery(sql);
+			retorno = new ArrayList<Questao>();
+
+			while(rs.next()){
+				Questao a = montarObjeto(rs);
+				retorno.add(a);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return retorno;
+	}
+	
 	public List<Questao> buscaLike(String campo, String valor){
 		String sql = "Select * FROM questao WHERE " + campo + " like '%" + valor + "%'";
 

@@ -110,6 +110,23 @@ public class RepositorioAvaliacao implements IRepositorioAvaliacao{
 		return retorno;
 	}
 	
+	public int nextId(){
+		String sql = "select max(id) from avaliacao";
+		int a = -1;
+
+		try{
+			Statement st = GerenteConexao.getConexao().createStatement();
+			ResultSet rs = st.executeQuery(sql);
+			rs.next();
+			a = rs.getInt(1);
+		}
+		catch(Exception ex){
+			ex.printStackTrace();
+		}
+		a++;
+		return a;
+	}
+	
 	private Avaliacao montarObjeto(ResultSet rs){
 		Avaliacao a = new Avaliacao();
 		try {

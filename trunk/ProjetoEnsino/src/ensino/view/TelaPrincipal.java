@@ -12,6 +12,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 
+import ensino.util.Sessao;
+
 public class TelaPrincipal extends JFrame implements ActionListener{
 
 	private JPanel contentPane;
@@ -19,6 +21,8 @@ public class TelaPrincipal extends JFrame implements ActionListener{
 	private JMenuItem mntmManterAulas;
 	private JMenuItem mntmCadastroAvaliacao;
 	private JMenuItem mntmManterAvaliacao;
+	private JMenu mnSair;
+	private JMenuItem mntmSair;
 
 	public TelaPrincipal() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -49,6 +53,13 @@ public class TelaPrincipal extends JFrame implements ActionListener{
 		mnNewMenu_1.add(mntmManterAvaliacao);
 		mntmManterAvaliacao.addActionListener(this);
 		
+		mnSair = new JMenu("Sistema");
+		menuBar.add(mnSair);
+		
+		mntmSair = new JMenuItem("Sair");
+		mnSair.add(mntmSair);
+		mntmSair.addActionListener(this);
+		
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		contentPane.setLayout(new BorderLayout(0, 0));
@@ -73,6 +84,11 @@ public class TelaPrincipal extends JFrame implements ActionListener{
 			TelaManterAvaliacoes tela = new TelaManterAvaliacoes();
 			tela.setVisible(true);
 		}
-		this.dispose();
+		else if(elemento.equals(mntmSair)){
+			TelaInicial tela = new TelaInicial();
+			tela.setVisible(true);
+			this.dispose();
+			Sessao.deslogar();
+		}
 	}
 }

@@ -19,7 +19,7 @@ import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 import ensino.dominio.Nivel;
-import ensino.entidades.Aula;
+import ensino.entidades.Avaliacao;
 import ensino.entidades.Questao;
 import ensino.fachada.Fachada;
 import ensino.util.Tabela;
@@ -41,7 +41,7 @@ public class TelaCadastrarAvaliacao extends JFrame implements ActionListener{
 		
 		questoes = new ArrayList<Questao>();
 		
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 704, 442);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -97,6 +97,7 @@ public class TelaCadastrarAvaliacao extends JFrame implements ActionListener{
 		
 		tabela = new Tabela<Questao>(new String [] {"Pergunta"});
 		tabela.montarTabela(questoes);
+		scrollPane.setViewportView(tabela);
 		
 		btnAdicionar = new JButton("+");
 		btnAdicionar.setBounds(622, 180, 41, 31);
@@ -128,6 +129,7 @@ public class TelaCadastrarAvaliacao extends JFrame implements ActionListener{
 	
 	public void adicionarQuestao(Questao q){
 		questoes.add(q);
+		tabela.montarTabela(questoes);
 	}
 	
 	private void cadastrar(){
@@ -136,7 +138,31 @@ public class TelaCadastrarAvaliacao extends JFrame implements ActionListener{
 		String media = txtMedia.getText();
 		String nivel = comboNivel.getSelectedItem().toString();
 		
+		Fachada fachada = Fachada.getInstancia();
+		int nextId = fachada.cadastroAvaliacao().proximoIdAvaliacao();
 		
+		Avaliacao avaliacao = new Avaliacao();
+		avaliacao.setId(nextId);
+		avaliacao.setMedia(media);
+		avaliacao.setNivel(nivel);
+		avaliacao.setNome(nome);
+		fachada.cadastroAvaliacao().cadastrarAvaliacao(avaliacao);
+		
+		for(Questao q : questoes){
+			q.setId_avaliacao(nextId);
+			fachada.cadastroQuestao().cadastrarQuestao(q);
+		}
+		
+		JOptionPane.showMessageDialog(this, "Avaliação cadastrada com sucesso.");
+		limparCampos();
+		tabela.montarTabela(questoes);
+	}
+	
+	private void limparCampos(){
+		txtNome.setText("");
+		txtMedia.setText("");
+		comboNivel.setSelectedIndex(0);
+		questoes = new ArrayList<Questao>();
 	}
 	
 	private void remover(){
@@ -167,7 +193,7 @@ public class TelaCadastrarAvaliacao extends JFrame implements ActionListener{
 			cadastrar();
 		}
 		else if(elemento.equals(btnCancelar)){
-			
+			this.dispose();
 		}
 	}
 }
