@@ -12,4 +12,5 @@ public interface IRepositorioAvaliacao {
 	public void editar(Avaliacao a);
 	public Avaliacao buscarPorId(int id);
 	public List<Avaliacao> buscaLike(String campo, String valor);
+	public int nextId();
 }

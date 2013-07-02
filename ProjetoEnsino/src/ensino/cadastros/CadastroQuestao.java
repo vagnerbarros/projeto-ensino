@@ -1,5 +1,6 @@
 package ensino.cadastros;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ensino.entidades.Questao;
@@ -31,6 +32,10 @@ public class CadastroQuestao {
     
     public Questao buscarQuestaoPorId(int id){
     	return rep.buscarPorId(id);
+    }
+    
+    public List<Questao> buscarPorAvaliacao(int idAvaliacao){
+    	return rep.buscarPorIdAvaliacao(idAvaliacao);
     }
 }
 

@@ -32,5 +32,13 @@ public class CadastroAvaliacao {
     public Avaliacao buscarAvaliacaoPorId(int id){
     	return rep.buscarPorId(id);
     }
+    
+    public int proximoIdAvaliacao(){
+    	return rep.nextId();
+    }
+    
+    public List<Avaliacao> buscarNivel(String nivel){
+    	return rep.buscaLike("nivel", nivel);
+    }
 }
 
